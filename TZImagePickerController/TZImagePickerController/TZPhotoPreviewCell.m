@@ -304,18 +304,30 @@
     if (_allowCrop) {
         _imageContainerView.tz_origin = CGPointZero;
         UIImage *image = _imageView.image;
-        if (image.size.height > image.size.width) {
-            CGFloat containerW = self.cropRect.size.width;
-            CGFloat containerH = floor(containerW * image.size.height / image.size.width);
-            _imageContainerView.tz_width = containerW;
-            _imageContainerView.tz_height = containerH;
-            
-            CGFloat contentW = self.tz_width;
-            CGFloat contentH = self.tz_height + containerH - self.cropRect.size.height;
-            _scrollView.contentSize = CGSizeMake(contentW, contentH);
+        
+        if (image != nil) {
+            if (image.size.height > image.size.width) {
+                CGFloat containerW = self.cropRect.size.width;
+                CGFloat containerH = floor(containerW * image.size.height / image.size.width);
+                _imageContainerView.tz_width = containerW;
+                _imageContainerView.tz_height = containerH;
+                
+                CGFloat contentW = self.tz_width;
+                CGFloat contentH = self.tz_height + containerH - self.cropRect.size.height;
+                _scrollView.contentSize = CGSizeMake(contentW, contentH);
+            } else {
+                CGFloat containerH = self.cropRect.size.height;
+                CGFloat containerW = floor(containerH * image.size.width / image.size.height);
+                _imageContainerView.tz_width = containerW;
+                _imageContainerView.tz_height = containerH;
+                
+                CGFloat contentH = self.tz_height;
+                CGFloat contentW = self.tz_width + containerW - self.cropRect.size.width;
+                _scrollView.contentSize = CGSizeMake(contentW, contentH);
+            }
         } else {
             CGFloat containerH = self.cropRect.size.height;
-            CGFloat containerW = floor(containerH * image.size.width / image.size.height);
+            CGFloat containerW = self.cropRect.size.width;
             _imageContainerView.tz_width = containerW;
             _imageContainerView.tz_height = containerH;
             
